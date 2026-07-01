@@ -1,250 +1,365 @@
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { onBeforeUnmount, ref } from "vue";
 
-const links = [
-  { label: 'E-mail', href: 'mailto:hello@example.com' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/' },
-  { label: 'Telegram', href: 'https://t.me/' },
-  { label: 'CV', href: '#' },
-]
+const email = "irina_zheleznova97@mail.ru";
+const hhUrl =
+    "https://hh.ru/resume/9ccb1af5ff10b9184e0039ed1f364f434f4f75";
+
+const copyMessage = ref("");
+const activeProject = ref(null);
+let copyMessageTimer;
+
+const experience = [
+    {
+        period: "2025",
+        company: "Дополнительный проект",
+        note: "(в разработке)",
+        tasks: [
+            "Проектирование мобильного приложения с нуля в составе команды.",
+            "Разработка интерфейсов, создание User Flow, UI Kit, библиотеки компонентов и дизайн-системы в Figma.",
+        ],
+    },
+    {
+        period: "2024–2026",
+        company: "Московский Кредитный Банк",
+        tasks: [
+            "Разработка цифровых материалов для мобильного приложения, веб-ресурсов и внутренних коммуникаций.",
+            "Работа в Figma: библиотеки компонентов, шаблоны и переиспользуемые элементы.",
+            "Поддержка единого визуального стиля и бренд-гайдлайнов.",
+            "Взаимодействие с внутренними заказчиками.",
+            "Внедрение AI-инструментов в рабочие процессы.",
+        ],
+    },
+    {
+        period: "2023–2024",
+        company: "МАКС-Жизнь",
+        note: "Страховая компания",
+        tasks: [
+            "Разработка и поддержка дизайна интерфейсов и отдельных экранов для личного кабинета.",
+            "Создание лендингов и промо-страниц, адаптация дизайна под различные устройства.",
+            "Проектирование пользовательских интерфейсов и цифровых маркетинговых материалов.",
+            "Анализ рынка, конкурентов и визуальных решений.",
+        ],
+    },
+];
 
 const skillGroups = [
-  {
-    title: 'Исследования',
-    lines: [
-      'Пользовательские сценарии • интервью • анализ задач',
-      'Проверка гипотез • структура продукта • прототипирование',
-      'Сбор требований • карта опыта • работа с обратной связью',
-    ],
-  },
-  {
-    title: 'Дизайн',
-    lines: [
-      'Интерфейсы • дизайн-системы • адаптивные макеты',
-      'Визуальная коммуникация • сетки • компоненты',
-    ],
-  },
-  {
-    title: 'Инструменты',
-    lines: [
-      'Figma • FigJam • Miro • Adobe • Tilda • Readymag',
-      'HTML • CSS • базовая работа с веб-средой',
-    ],
-  },
-]
+    {
+        title: "Tools",
+        skills: ["Figma", "Adobe Illustrator", "Adobe Photoshop", "ChatGPT", "Gemini"],
+    },
+    {
+        title: "Design",
+        skills: [
+            "UI/UX Design",
+            "UI Kit",
+            "Mobile Design",
+            "Web Design",
+            "Design System",
+            "Adaptive Design",
+            "User Flow",
+            "Wireframes",
+            "Прототипирование",
+            "Branding",
+            "Identity",
+        ],
+    },
+];
 
 const projects = [
-  {
-    title: 'Проект 01',
-    type: 'website',
-    description: 'Короткое описание проекта, роли и основной задачи.',
-    details:
-      'Здесь будет подробная страница проекта: вводная, задача, процесс, ключевые решения и результат. Пока это нейтральный текст-заглушка, который можно заменить на реальный кейс.',
-    imageClass: 'cover-favias',
-  },
-  {
-    title: 'Проект 02',
-    type: 'mobile app',
-    description: 'Описание мобильного интерфейса или продуктовой концепции.',
-    details:
-      'На этой странице можно показать контекст проекта, несколько экранов, что было сделано и какую задачу решал дизайн.',
-    imageClass: 'cover-volchok',
-  },
-  {
-    title: 'Проект 03',
-    type: 'service',
-    description: 'Заглушка для сервиса, лендинга или внутреннего продукта.',
-    details:
-      'Тут будет развернутое описание: цель, аудитория, структура решения, визуальная система и финальные материалы.',
-    imageClass: 'cover-msp',
-  },
-  {
-    title: 'Проект 04',
-    type: 'website',
-    description: 'Карточка для веб-проекта с будущими изображениями.',
-    details:
-      'Попап подходит для кейса с большим количеством визуалов: обложка, текстовые блоки, список работ и дополнительные ссылки.',
-    imageClass: 'cover-stt',
-  },
-  {
-    title: 'Проект 05',
-    type: 'concept',
-    description: 'Заглушка для концепта, исследования или командной работы.',
-    details:
-      'В дальнейшем здесь можно описать вклад Иры, ограничения проекта, этапы работы и итоговый результат.',
-    imageClass: 'cover-mkb',
-  },
-  {
-    title: 'Проект 06',
-    type: 'web',
-    description: 'Место под еще один проект в галерее.',
-    details:
-      'Это временное наполнение. Когда появятся реальные материалы, достаточно заменить текст и добавить изображения в массив проекта.',
-    imageClass: 'cover-ice',
-  },
-]
+    {
+        title: "Редизайн приложения ресторана",
+        shortTitle: "Restaurant app",
+        accent: "red",
+        figmaUrl: "",
+    },
+    {
+        title: "Мобильное приложение",
+        shortTitle: "Mobile app",
+        accent: "blue",
+        figmaUrl: "",
+    },
+    {
+        title: "Личный кабинет",
+        shortTitle: "Web service",
+        accent: "green",
+        figmaUrl: "",
+    },
+    {
+        title: "Новый проект",
+        shortTitle: "Concept",
+        accent: "violet",
+        figmaUrl: "",
+    },
+];
 
-const activeProjectIndex = ref(null)
+const researchTags = [
+    "UX Research",
+    "User Flow",
+    "Wireframes",
+    "UI Kit",
+    "UI Design",
+    "Prototype",
+];
 
-const activeProject = computed(() =>
-  activeProjectIndex.value === null ? null : projects[activeProjectIndex.value],
-)
+const problems = [
+    ["Визуальный шум", "Интерфейс перегружен яркими цветами, баннерами и фоновыми изображениями."],
+    ["Сложный выбор товара", "Карточки содержат минимум информации и усложняют принятие решения."],
+    ["Неудобная структура", "Для просмотра состава блюда необходимо переходить между экранами."],
+    ["Лишние элементы", "Часть функций главного экрана не используется или ведет на пустые страницы."],
+];
 
-function openProject(index) {
-  activeProjectIndex.value = index
+function openProject(project) {
+    activeProject.value = project;
+    document.body.classList.add("case-open");
 }
 
 function closeProject() {
-  activeProjectIndex.value = null
+    activeProject.value = null;
+    document.body.classList.remove("case-open");
+}
+
+function getFigmaEmbedUrl(url) {
+    return `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`;
+}
+
+async function copyContact(value, message) {
+    try {
+        await navigator.clipboard.writeText(value);
+    } catch {
+        const input = document.createElement("textarea");
+        input.value = value;
+        input.style.position = "fixed";
+        input.style.opacity = "0";
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        input.remove();
+    }
+
+    copyMessage.value = message;
+    window.clearTimeout(copyMessageTimer);
+    copyMessageTimer = window.setTimeout(() => {
+        copyMessage.value = "";
+    }, 2200);
 }
 
 function handleKeydown(event) {
-  if (event.key === 'Escape') {
-    closeProject()
-  }
+    if (event.key === "Escape" && activeProject.value) closeProject();
 }
 
-watch(activeProject, (project) => {
-  document.body.classList.toggle('modal-open', Boolean(project))
-
-  if (project) {
-    window.addEventListener('keydown', handleKeydown)
-  } else {
-    window.removeEventListener('keydown', handleKeydown)
-  }
-})
+window.addEventListener("keydown", handleKeydown);
 
 onBeforeUnmount(() => {
-  document.body.classList.remove('modal-open')
-  window.removeEventListener('keydown', handleKeydown)
-})
+    window.removeEventListener("keydown", handleKeydown);
+    window.clearTimeout(copyMessageTimer);
+    document.body.classList.remove("case-open");
+});
 </script>
 
 <template>
-  <main class="page">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__photo" aria-hidden="true"></div>
+    <main class="portfolio">
+        <section class="intro" aria-labelledby="intro-title">
+            <div class="portrait" role="img" aria-label="Фото Ирины Железновой">
+                <span>ИЖ</span>
+            </div>
 
-      <div class="hero__content">
-        <p class="eyebrow">UX/UI designer</p>
-        <h1 id="hero-title">Ира Железнова</h1>
-        <p class="lead">
-          Дизайнер интерфейсов и цифровых продуктов. Здесь будет короткое описание опыта,
-          подхода к работе и направлений, с которыми хочется ассоциировать портфолио.
-        </p>
+            <div class="intro__content">
+                <span class="role-badge">UI/UX DESIGNER</span>
+                <h1 id="intro-title">ИРИНА ЖЕЛЕЗНОВА</h1>
+                <p class="intro__lead">Проектирую понятные интерфейсы для веб и мобильных продуктов</p>
+                <p class="intro__meta">28 лет&nbsp; • &nbsp;Москва&nbsp; • &nbsp;Удаленная работа</p>
 
-        <nav class="links" aria-label="Контакты">
-          <a v-for="link in links" :key="link.label" :href="link.href" target="_blank" rel="noreferrer">
-            {{ link.label }}
-          </a>
-        </nav>
+                <nav class="contact-list" aria-label="Контакты">
+                    <button type="button" @click="copyContact(email, 'Email скопирован')">E-mail</button>
+                    <a href="https://t.me/kirabirl" target="_blank" rel="noreferrer">Telegram</a>
+                    <a :href="hhUrl" target="_blank" rel="noreferrer">HeadHunter</a>
+                </nav>
+            </div>
+        </section>
 
-        <p class="location">Город / формат работы</p>
-      </div>
-    </section>
+        <section class="content-section" aria-labelledby="about-title">
+            <h2 id="about-title">Обо мне</h2>
+            <p>
+                Более 3 лет я работаю в digital дизайне. Постепенно поняла, что больше всего мне
+                нравится проектировать интерфейсы и продумывать пользовательский опыт. Сейчас
+                развиваюсь в направлении UI/UX, создаю собственные проекты и постоянно совершенствую
+                свои навыки. Люблю сначала разобраться в задаче, а потом искать простые и удобные
+                решения для пользователей.
+            </p>
+            <p>В свободное время изучаю немецкий язык и люблю компьютерные игры.</p>
+        </section>
 
-    <section class="goal" aria-label="Коротко">
-      <p>
-        <strong>Коротко:</strong> этот блок можно использовать для личного позиционирования,
-        текущего фокуса или пары предложений о том, какие задачи интересны дизайнеру.
-      </p>
-    </section>
+        <details class="resume-section">
+            <summary>Опыт работы</summary>
+            <div class="experience-list">
+                <article v-for="job in experience" :key="job.period + job.company" class="experience-card">
+                    <div class="experience-card__heading">
+                        <span>{{ job.period }}</span>
+                        <strong>{{ job.company }}</strong>
+                        <small v-if="job.note">{{ job.note }}</small>
+                    </div>
+                    <ul>
+                        <li v-for="task in job.tasks" :key="task">{{ task }}</li>
+                    </ul>
+                </article>
+            </div>
+        </details>
 
-    <section class="about" aria-labelledby="about-title">
-      <h2 id="about-title">UX/UI дизайнер</h2>
-      <p>
-        Нейтральный текст-заглушка для блока о себе. Здесь можно описать опыт,
-        сильные стороны, рабочий процесс, типы проектов и то, как дизайнер
-        взаимодействует с командами и заказчиками.
-      </p>
+        <details class="resume-section">
+            <summary>Навыки</summary>
+            <div class="skills-grid">
+                <article v-for="group in skillGroups" :key="group.title" class="skill-panel">
+                    <h3>{{ group.title }}</h3>
+                    <div class="tag-list">
+                        <span v-for="skill in group.skills" :key="skill">{{ skill }}</span>
+                    </div>
+                </article>
+            </div>
+        </details>
 
-      <div class="doc-links">
-        <a href="#">Резюме</a>
-        <a href="#">Рекомендации</a>
-        <a href="#">Дополнительная ссылка</a>
-      </div>
+        <section class="portfolio-section" aria-labelledby="portfolio-title">
+            <h2 id="portfolio-title">Портфолио</h2>
+            <div class="project-grid">
+                <button
+                    v-for="project in projects"
+                    :key="project.title"
+                    type="button"
+                    class="project-tile"
+                    @click="openProject(project)"
+                >
+                    <span class="project-tile__preview" :class="`project-tile__preview--${project.accent}`">
+                        <span>{{ project.shortTitle }}</span>
+                    </span>
+                    <span class="project-tile__title">{{ project.title }}</span>
+                </button>
+            </div>
+        </section>
+    </main>
 
-      <ul>
-        <li>Здесь может быть актуальная роль, формат занятости или специализация.</li>
-        <li>Здесь может быть второй факт: образование, опыт, индустрии или интересы.</li>
-      </ul>
-    </section>
+    <Transition name="toast">
+        <div v-if="copyMessage" class="copy-toast" role="status" aria-live="polite">
+            {{ copyMessage }}
+        </div>
+    </Transition>
 
-    <section class="skills" aria-labelledby="skills-title">
-      <h2 id="skills-title">Навыки</h2>
-      <div class="skills__grid">
-        <article v-for="group in skillGroups" :key="group.title" class="skill-card">
-          <h3>{{ group.title }}</h3>
-          <p v-for="line in group.lines" :key="line">{{ line }}</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="projects" aria-labelledby="projects-title">
-      <div class="section-head">
-        <p class="eyebrow">Мои работы</p>
-        <h2 id="projects-title">Проекты</h2>
-      </div>
-
-      <div class="gallery">
-        <button
-          v-for="(project, index) in projects"
-          :key="project.title"
-          type="button"
-          class="project-card"
-          @click="openProject(index)"
+    <Teleport to="body">
+        <div
+            v-if="activeProject"
+            class="case-page"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Описание проекта"
+            @click.self="closeProject"
         >
-          <span class="project-card__image" :class="project.imageClass">
-            <img v-if="project.image" :src="project.image" :alt="project.title" />
-            <span v-else>{{ project.title }}</span>
-          </span>
-          <span class="project-card__body">
-            <span class="project-card__meta">{{ project.type }}</span>
-            <strong>{{ project.title }}</strong>
-            <span>{{ project.description }}</span>
-          </span>
-        </button>
-      </div>
-    </section>
-  </main>
+            <div class="case-modal">
+                <button type="button" class="case-close" @click="closeProject" aria-label="Закрыть проект">
+                    <span aria-hidden="true">×</span>
+                </button>
 
-  <Teleport to="body">
-    <div v-if="activeProject" class="project-modal" role="dialog" aria-modal="true">
-      <button class="project-modal__backdrop" type="button" aria-label="Закрыть проект" @click="closeProject"></button>
+                <article class="case-study">
+                <header class="case-hero">
+                    <h2>{{ activeProject.title }}</h2>
+                    <p>
+                        Личный UX/UI-проект по редизайну существующего приложения немецкого ресторана.
+                        Цель — улучшить пользовательский опыт и сохранить его функциональность.
+                    </p>
+                    <h3>Моя роль</h3>
+                    <div class="tag-list">
+                        <span v-for="tag in researchTags" :key="tag">{{ tag }}</span>
+                    </div>
+                </header>
 
-      <article class="project-modal__panel">
-        <button class="back-button" type="button" @click="closeProject">
-          <span aria-hidden="true">←</span>
-          Назад
-        </button>
+                <section class="case-section">
+                    <h3>Исследование</h3>
+                    <p>
+                        Был проведен анализ существующего приложения и опрос потенциальных
+                        пользователей, чтобы подтвердить найденные проблемы и определить основные
+                        пользовательские сценарии.
+                    </p>
+                    <h4>Методы исследования</h4>
+                    <div class="tag-list tag-list--wide">
+                        <span>Анализ существующего приложения</span>
+                        <span>Анализ пользовательских сценариев</span>
+                        <span>Интервью с пользователями</span>
+                        <span>Анализ конкурентов</span>
+                    </div>
+                </section>
 
-        <div class="project-modal__cover" :class="activeProject.imageClass">
-          <img v-if="activeProject.image" :src="activeProject.image" :alt="activeProject.title" />
-          <span v-else>{{ activeProject.title }}</span>
+                <section class="case-section">
+                    <h4>Исходное приложение</h4>
+                    <div class="screen-board screen-board--old" aria-label="Место для экранов исходного приложения">
+                        <div v-for="index in 6" :key="index" class="phone-mock phone-mock--old">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="case-section">
+                    <h4>Основные проблемы</h4>
+                    <div class="problem-list">
+                        <div v-for="problem in problems" :key="problem[0]" class="problem-row">
+                            <strong>{{ problem[0] }}</strong>
+                            <p>{{ problem[1] }}</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="case-section case-section--spaced">
+                    <h3>User Flow</h3>
+                    <p>На основе результатов исследования был переработан пользовательский сценарий и упрощен путь оформления заказа.</p>
+                    <div class="diagram-board flow-board" aria-label="Место для схемы User Flow">
+                        <div v-for="index in 7" :key="index" class="flow-column">
+                            <i></i><span></span><span></span><b></b>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="case-section case-section--spaced">
+                    <h3>Wireframes</h3>
+                    <p>После определения структуры были созданы wireframes для проверки компоновки экранов и пользовательских сценариев.</p>
+                    <div class="diagram-board wireframe-board" aria-label="Место для вайрфреймов">
+                        <div v-for="index in 12" :key="index" class="wireframe-phone">
+                            <i></i><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="case-section case-section--spaced">
+                    <h3>UI Kit</h3>
+                    <p>Для ускорения разработки и обеспечения единообразия интерфейса была создана дизайн-система.</p>
+                    <div class="diagram-board kit-board" aria-label="Место для UI Kit">
+                        <div class="kit-group"><i></i><i></i><i></i><i></i></div>
+                        <div class="kit-group kit-group--accent"><i></i><i></i><i></i></div>
+                        <div class="kit-sidebar"></div>
+                    </div>
+                </section>
+
+                <section class="case-section case-section--spaced">
+                    <h3>Финальный дизайн</h3>
+                    <iframe
+                        v-if="activeProject.figmaUrl"
+                        class="figma-embed"
+                        :src="getFigmaEmbedUrl(activeProject.figmaUrl)"
+                        allowfullscreen
+                        title="Интерактивный макет Figma"
+                    ></iframe>
+                    <div v-else class="diagram-board final-board" aria-label="Место для финальных экранов">
+                        <div v-for="index in 10" :key="index" class="final-phone">
+                            <i></i><span></span><span></span><b></b>
+                        </div>
+                    </div>
+                    <h4>Что изменилось</h4>
+                    <div class="tag-list tag-list--wide">
+                        <span>Упростила структуру навигации</span>
+                        <span>Добавила визуализацию товаров</span>
+                        <span>Переработала карточку блюда</span>
+                        <span>Сократила количество лишних действий</span>
+                        <span>Снизила визуальную нагрузку</span>
+                    </div>
+                </section>
+                </article>
+            </div>
         </div>
-
-        <div class="project-modal__content">
-          <p class="eyebrow">{{ activeProject.type }}</p>
-          <h2>{{ activeProject.title }}</h2>
-          <p class="lead">{{ activeProject.description }}</p>
-          <p>{{ activeProject.details }}</p>
-
-          <div class="project-modal__grid">
-            <section>
-              <h3>Задача</h3>
-              <p>Краткое описание цели проекта и контекста, который будет заполнен позже.</p>
-            </section>
-            <section>
-              <h3>Роль</h3>
-              <p>Здесь можно указать вклад дизайнера, этапы работы и используемые инструменты.</p>
-            </section>
-            <section>
-              <h3>Результат</h3>
-              <p>Место для итогов, ссылок, метрик или описания готового решения.</p>
-            </section>
-          </div>
-        </div>
-      </article>
-    </div>
-  </Teleport>
+    </Teleport>
 </template>
