@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { nextTick, onBeforeUnmount, ref, watch } from "vue";
 import AssetFrame from "./components/AssetFrame.vue";
 import ProjectModal from "./components/ProjectModal.vue";
 import { experience, profile, projects, skillGroups } from "./data.js";
@@ -9,16 +9,12 @@ const toast = ref("");
 
 const profileClickCount = ref(0);
 const isCatMode = ref(false);
+const catVideoRef = ref(null);
 
 let toastTimer;
-let catTimer;
 let profileClickResetTimer;
 
-const catGif = `${import.meta.env.BASE_URL}portfolio/oiia-cat.gif`;
-
-const profilePhotoSrc = computed(() => {
-    return isCatMode.value ? catGif : profile.photo;
-});
+const catVideo = `${import.meta.env.BASE_URL}portfolio/beep-cat.mp4`;
 
 async function copyEmail() {
     try {
@@ -41,16 +37,29 @@ async function copyEmail() {
     }, 2200);
 }
 
-function activateCatMode() {
+async function activateCatMode() {
     isCatMode.value = true;
     profileClickCount.value = 0;
 
-    window.clearTimeout(catTimer);
     window.clearTimeout(profileClickResetTimer);
 
-    catTimer = window.setTimeout(() => {
-        isCatMode.value = false;
-    }, 10000);
+    await nextTick();
+
+    if (catVideoRef.value) {
+        catVideoRef.value.currentTime = 0;
+        catVideoRef.value.volume = 0.15;
+
+        try {
+            await catVideoRef.value.play();
+        } catch {
+            // Если браузер вдруг заблокирует звук, видео всё равно останется видимым.
+        }
+    }
+}
+
+function deactivateCatMode() {
+    isCatMode.value = false;
+    profileClickCount.value = 0;
 }
 
 function handleProfileClick() {
@@ -89,7 +98,6 @@ window.addEventListener("keydown", handleKeydown);
 onBeforeUnmount(() => {
     window.removeEventListener("keydown", handleKeydown);
     window.clearTimeout(toastTimer);
-    window.clearTimeout(catTimer);
     window.clearTimeout(profileClickResetTimer);
     document.body.classList.remove("modal-open");
 });
@@ -105,8 +113,18 @@ onBeforeUnmount(() => {
                     aria-label="Фото профиля"
                     @click="handleProfileClick"
                 >
+                    <video
+                        v-if="isCatMode"
+                        ref="catVideoRef"
+                        class="profile-cat-video"
+                        :src="catVideo"
+                        playsinline
+                        @ended="deactivateCatMode"
+                    />
+
                     <AssetFrame
-                        :src="profilePhotoSrc"
+                        v-else
+                        :src="profile.photo"
                         alt="Ирина Железнова"
                         ratio="square"
                     />

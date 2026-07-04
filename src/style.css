@@ -880,3 +880,37 @@ p {
 .profile-photo-button:active .asset-frame {
     transform: scale(0.98);
 }
+
+.profile-photo-button {
+    display: block;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    background: transparent;
+}
+
+.profile-photo-button .asset-frame,
+.profile-cat-video {
+    transition:
+        transform 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.profile-photo-button:hover .asset-frame,
+.profile-photo-button:hover .profile-cat-video {
+    transform: scale(1.03);
+}
+
+.profile-photo-button:active .asset-frame,
+.profile-photo-button:active .profile-cat-video {
+    transform: scale(0.98);
+}
+
+.profile-cat-video {
+    display: block;
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.26);
+}
