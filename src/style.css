@@ -858,3 +858,25 @@ p {
         text-align: center;
     }
 }
+
+.profile-photo-button {
+    display: block;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    background: transparent;
+}
+
+.profile-photo-button .asset-frame {
+    transition:
+        transform 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.profile-photo-button:hover .asset-frame {
+    transform: scale(1.03);
+}
+
+.profile-photo-button:active .asset-frame {
+    transform: scale(0.98);
+}

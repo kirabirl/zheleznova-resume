@@ -1,12 +1,24 @@
 <script setup>
-import { onBeforeUnmount, ref, watch } from "vue";
+import { computed, onBeforeUnmount, ref, watch } from "vue";
 import AssetFrame from "./components/AssetFrame.vue";
 import ProjectModal from "./components/ProjectModal.vue";
 import { experience, profile, projects, skillGroups } from "./data.js";
 
 const activeProject = ref(null);
 const toast = ref("");
+
+const profileClickCount = ref(0);
+const isCatMode = ref(false);
+
 let toastTimer;
+let catTimer;
+let profileClickResetTimer;
+
+const catGif = `${import.meta.env.BASE_URL}portfolio/oiia-cat.gif`;
+
+const profilePhotoSrc = computed(() => {
+    return isCatMode.value ? catGif : profile.photo;
+});
 
 async function copyEmail() {
     try {
@@ -27,6 +39,33 @@ async function copyEmail() {
     toastTimer = window.setTimeout(() => {
         toast.value = "";
     }, 2200);
+}
+
+function activateCatMode() {
+    isCatMode.value = true;
+    profileClickCount.value = 0;
+
+    window.clearTimeout(catTimer);
+    window.clearTimeout(profileClickResetTimer);
+
+    catTimer = window.setTimeout(() => {
+        isCatMode.value = false;
+    }, 10000);
+}
+
+function handleProfileClick() {
+    if (isCatMode.value) return;
+
+    profileClickCount.value += 1;
+
+    window.clearTimeout(profileClickResetTimer);
+    profileClickResetTimer = window.setTimeout(() => {
+        profileClickCount.value = 0;
+    }, 5000);
+
+    if (profileClickCount.value >= 20) {
+        activateCatMode();
+    }
 }
 
 function openProject(project) {
@@ -50,6 +89,8 @@ window.addEventListener("keydown", handleKeydown);
 onBeforeUnmount(() => {
     window.removeEventListener("keydown", handleKeydown);
     window.clearTimeout(toastTimer);
+    window.clearTimeout(catTimer);
+    window.clearTimeout(profileClickResetTimer);
     document.body.classList.remove("modal-open");
 });
 </script>
@@ -58,13 +99,18 @@ onBeforeUnmount(() => {
     <main class="portfolio-shell">
         <section class="hero-block">
             <header class="profile-header">
-                <div class="profile-photo">
+                <button
+                    class="profile-photo profile-photo-button"
+                    type="button"
+                    aria-label="Фото профиля"
+                    @click="handleProfileClick"
+                >
                     <AssetFrame
-                        :src="profile.photo"
+                        :src="profilePhotoSrc"
                         alt="Ирина Железнова"
                         ratio="square"
                     />
-                </div>
+                </button>
 
                 <div class="profile-copy">
                     <span class="role-pill">{{ profile.role }}</span>
