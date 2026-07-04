@@ -2,24 +2,20 @@
 import { ref } from "vue";
 import AssetFrame from "./AssetFrame.vue";
 
-defineProps({ project: { type: Object, required: true } });
-const emit = defineEmits(["close"]);
+const props = defineProps({
+    project: { type: Object, required: true },
+});
 
+const emit = defineEmits(["close"]);
 const zoomedImage = ref(null);
 
 function normalizeGalleryItem(item) {
-    if (Array.isArray(item)) {
-        return {
-            title: item[0],
-            image: item[1],
-            ratio: "natural",
-        };
-    }
-
     return {
-        title: item.title,
+        title: item.title || "",
         image: item.image,
         ratio: item.ratio || "natural",
+        caption: Boolean(item.caption),
+        span: item.span || 1,
     };
 }
 
@@ -58,10 +54,12 @@ function closeProject() {
             <div class="case-content">
                 <header class="case-header">
                     <h2>{{ project.heading }}</h2>
+
                     <p v-if="project.intro">{{ project.intro }}</p>
 
                     <template v-if="project.tags">
                         <h3>Моя роль</h3>
+
                         <div class="tag-list">
                             <span v-for="tag in project.tags" :key="tag">{{
                                 tag
@@ -74,9 +72,6 @@ function closeProject() {
                     v-for="section in project.sections"
                     :key="section.title"
                     class="case-section"
-                    :class="{
-                        'case-section--spoiler': section.title === 'Спойлер',
-                    }"
                 >
                     <h3>{{ section.title }}</h3>
 
@@ -89,7 +84,7 @@ function closeProject() {
                         v-if="section.image"
                         type="button"
                         class="image-open-button"
-                        :aria-label="`Открыть изображение: ${project.title}, ${section.title}`"
+                        :aria-label="`Открыть изображение: ${project.title}`"
                         @click="
                             openImage(
                                 section.image,
@@ -129,30 +124,50 @@ function closeProject() {
                         </template>
                     </div>
 
-                    <div v-if="section.gallery" class="case-gallery">
+                    <div
+                        v-if="section.gallery"
+                        class="case-gallery"
+                        :class="
+                            section.galleryVariant
+                                ? `case-gallery--${section.galleryVariant}`
+                                : ''
+                        "
+                    >
                         <figure
                             v-for="rawItem in section.gallery"
-                            :key="normalizeGalleryItem(rawItem).title"
-                            :class="`case-gallery__item case-gallery__item--${normalizeGalleryItem(rawItem).ratio}`"
+                            :key="normalizeGalleryItem(rawItem).image"
+                            class="case-gallery__item"
+                            :class="`case-gallery__item--${normalizeGalleryItem(rawItem).ratio}`"
+                            :style="{
+                                gridColumn: normalizeGalleryItem(rawItem).span
+                                    ? `span ${normalizeGalleryItem(rawItem).span}`
+                                    : undefined,
+                            }"
                         >
-                            <figcaption>
+                            <figcaption
+                                v-if="normalizeGalleryItem(rawItem).caption"
+                            >
                                 {{ normalizeGalleryItem(rawItem).title }}
                             </figcaption>
 
                             <button
                                 type="button"
                                 class="image-open-button"
-                                :aria-label="`Открыть изображение: ${normalizeGalleryItem(rawItem).title}`"
+                                :aria-label="`Открыть изображение: ${normalizeGalleryItem(rawItem).title || project.title}`"
                                 @click="
                                     openImage(
                                         normalizeGalleryItem(rawItem).image,
-                                        normalizeGalleryItem(rawItem).title,
+                                        normalizeGalleryItem(rawItem).title ||
+                                            project.title,
                                     )
                                 "
                             >
                                 <AssetFrame
                                     :src="normalizeGalleryItem(rawItem).image"
-                                    :alt="normalizeGalleryItem(rawItem).title"
+                                    :alt="
+                                        normalizeGalleryItem(rawItem).title ||
+                                        project.title
+                                    "
                                     :ratio="normalizeGalleryItem(rawItem).ratio"
                                 />
                             </button>
@@ -161,6 +176,7 @@ function closeProject() {
 
                     <template v-if="section.subtitle">
                         <h4>{{ section.subtitle }}</h4>
+
                         <div class="tag-list">
                             <span v-for="tag in section.tags" :key="tag">{{
                                 tag

@@ -7,7 +7,7 @@ export const profile = {
   photo: asset("profile.webp"),
   email: "irina_zheleznova97@mail.ru",
   telegram: "https://t.me/kirabirl",
-  headHunter: "https://hh.ru/resume/9ccb1af5ff10b9184e0039ed1f364f434f4f75",
+  cv: "https://hh.ru/resume/9ccb1af5ff10b9184e0039ed1f364f434f4f75",
 };
 
 export const experience = [
@@ -22,19 +22,19 @@ export const experience = [
     ],
   },
   {
-    period: "2024–2026",
+    period: "2024-2026",
     company: "Московский Кредитный Банк",
     tasks: [
-      "Разработка цифровых материалов для мобильного приложения, веб ресурсов и внутренних коммуникаций.",
+      "Разработка цифровых материалов для мобильного приложения, веб-ресурсов и внутренних коммуникаций.",
       "Работа в Figma: библиотеки компонентов, шаблоны и переиспользуемые элементы.",
-      "Поддержка единого визуального стиля и бренд гайдов.",
+      "Поддержка единого визуального стиля и бренд гайдлайнов.",
       "Взаимодействие с внутренними заказчиками.",
       "Внедрение AI инструментов (ChatGPT, Gemini) в рабочие процессы.",
       "Оптимизация процессов отдела. Результат ежегодной оценки эффективности за 2025 год более 100%.",
     ],
   },
   {
-    period: "2023–2024",
+    period: "2023-2024",
     company: "МАКС-Жизнь. Страховая компания",
     tasks: [
       "Разработка и поддержка дизайна интерфейсов и отдельных экранов для личного кабинета.",
@@ -79,7 +79,7 @@ export const projects = [
   {
     id: "restaurant",
     title: "Редизайн приложения ресторана",
-    cover: asset("restaurant-cover.webp"),
+    cover: asset("restaurant-final.png"),
     heading: "Редизайн мобильного приложения немецкого ресторана",
     intro:
       "Личный UX/UI-проект по редизайну существующего приложения немецкого ресторана. Цель: улучшить пользовательский опыт существующего приложения, сохранив его функциональность.",
@@ -105,38 +105,14 @@ export const projects = [
       },
       {
         title: "Исходное приложение",
-        text: "Экраны исходного приложения до редизайна.",
+        galleryVariant: "phones-strip",
         gallery: [
-          {
-            title: "Главный экран",
-            image: asset("restaurant-source-01.png"),
-            ratio: "phone",
-          },
-          {
-            title: "Категории",
-            image: asset("restaurant-source-02.png"),
-            ratio: "phone",
-          },
-          {
-            title: "Меню",
-            image: asset("restaurant-source-03.png"),
-            ratio: "phone",
-          },
-          {
-            title: "Аллергены",
-            image: asset("restaurant-source-04.png"),
-            ratio: "phone",
-          },
-          {
-            title: "Карточка товара",
-            image: asset("restaurant-source-05.png"),
-            ratio: "phone",
-          },
-          {
-            title: "Корзина",
-            image: asset("restaurant-source-06.png"),
-            ratio: "phone",
-          },
+          { image: asset("restaurant-source-01.png"), ratio: "phone" },
+          { image: asset("restaurant-source-02.png"), ratio: "phone" },
+          { image: asset("restaurant-source-03.png"), ratio: "phone" },
+          { image: asset("restaurant-source-04.png"), ratio: "phone" },
+          { image: asset("restaurant-source-05.png"), ratio: "phone" },
+          { image: asset("restaurant-source-06.png"), ratio: "phone" },
         ],
       },
       {
@@ -148,11 +124,11 @@ export const projects = [
           ],
           [
             "Лишние элементы интерфейса",
-            "Часть функций главного экрана не используется или ведет на пустые страницы, создавая визуальный шум у пользователя.",
+            "Часть функций главного экрана не используется или ведет на пустые страницы, создавая визуальный шум и усложняя навигацию.",
           ],
           [
             "Сложный выбор товара",
-            "Карточки меню содержат минимум информации, пользователю трудно понять, что именно он заказывает.",
+            "Карточки меню содержат минимум информации, не имеют визуализации, пользователю трудно понять, что именно он заказывает.",
           ],
           [
             "Неудобная структура информации",
@@ -172,13 +148,13 @@ export const projects = [
       },
       {
         title: "Wireframes",
-        text: "После определения структуры были созданы wireframes для проверки компоновки экранов и пользовательских сценариев.",
+        text: "После определения структуры были созданы wireframes для проверки компоновки экранов и пользовательских сценариев. Основные экраны.",
         image: asset("restaurant-wireframes.png"),
         ratio: "natural",
       },
       {
         title: "UI Kit",
-        text: "Для ускорения разработки и обеспечения единообразия интерфейса была создана дизайн-система.",
+        text: "Для ускорения разработки и обеспечения единообразия интерфейса создана дизайн-система.",
         image: asset("restaurant-ui-kit.png"),
         ratio: "natural",
       },
@@ -200,14 +176,14 @@ export const projects = [
   {
     id: "sravni",
     title: "МАКС-Жизнь для Сравни.ру",
-    cover: asset("sravni-cover.webp"),
+    cover: asset("sravni-final.png"),
     heading: "МАКС-Жизнь для Сравни.ру",
     sections: [
       {
         title: "Задача",
         paragraphs: [
           "Спроектировать посадочную страницу с формой заявки и блоками с условиями продукта для страховой компании для размещения на сайте Сравни.ру.",
-          "Со стороны платформы не было готового UI Kit, поэтому все было собрано вручную через анализ самого сайта: HTML/CSS структура, отступы и стилистика компонентов.",
+          "Со стороны платформы не было готового UI-кита, поэтому все было собрано вручную через анализ самого сайта (HTML/CSS-структура, отступы, стилистика компонентов и т.д.).",
         ],
       },
       {
@@ -225,7 +201,7 @@ export const projects = [
   {
     id: "mobile-insurance",
     title: "МАКС-Жизнь. Мобильная версия страницы страхового продукта",
-    cover: asset("mobile-insurance-cover.webp"),
+    cover: asset("mobile-insurance-final-01.png"),
     heading: "МАКС-Жизнь. Мобильная версия страницы страхового продукта",
     intro:
       "Рабочий проект по адаптации страницы страхового продукта для мобильной версии.",
@@ -244,50 +220,27 @@ export const projects = [
         ratio: "natural",
       },
       {
-        title: "Финальные экраны",
+        title: "Финальный экран",
+        galleryVariant: "phones-panel",
         gallery: [
-          {
-            title: "Быстрый расчет",
-            image: asset("mobile-insurance-final-01.png"),
-            ratio: "phone",
-          },
-          {
-            title: "Стоимость",
-            image: asset("mobile-insurance-final-02.png"),
-            ratio: "phone",
-          },
-          {
-            title: "Описание программы",
-            image: asset("mobile-insurance-final-03.png"),
-            ratio: "phone",
-          },
-          {
-            title: "Как оформить",
-            image: asset("mobile-insurance-final-04.png"),
-            ratio: "phone",
-          },
-          {
-            title: "Условия программы",
-            image: asset("mobile-insurance-final-05.png"),
-            ratio: "phone",
-          },
-          {
-            title: "Форма заявки",
-            image: asset("mobile-insurance-final-06.png"),
-            ratio: "phone",
-          },
+          { image: asset("mobile-insurance-final-01.png"), ratio: "phone" },
+          { image: asset("mobile-insurance-final-02.png"), ratio: "phone" },
+          { image: asset("mobile-insurance-final-03.png"), ratio: "phone" },
+          { image: asset("mobile-insurance-final-04.png"), ratio: "phone" },
+          { image: asset("mobile-insurance-final-05.png"), ratio: "phone" },
+          { image: asset("mobile-insurance-final-06.png"), ratio: "phone" },
         ],
       },
       {
         title: "Спойлер",
-        text: ":)",
+        text: "За 2,5 года разрабы так и не сделали эту страничку (стало даже еще хуже)  :')",
       },
     ],
   },
   {
     id: "claim-service",
     title: "МАКС-Жизнь. Личный кабинет: сервис «Заявление на дожитие»",
-    cover: asset("claim-service-cover.webp"),
+    cover: asset("claim-contract.png"),
     heading:
       "МАКС-Жизнь. Проектирование сервиса «Заявление на дожитие» в личном кабинете",
     intro:
@@ -295,40 +248,56 @@ export const projects = [
     sections: [
       {
         title: "Особенности",
-        text: "Для нового сервиса отсутствовали готовые макеты и компоненты. В качестве исходных данных использовалось только описание процесса. Чтобы сохранить единый стиль личного кабинета, я самостоятельно проанализировала существующие сервисы и на их основе разработала новый пользовательский сценарий.",
+        text: "Для нового сервиса отсутствовали готовые макеты, UI-компоненты и спецификации. В качестве исходных данных использовалось только описание процесса. Чтобы сохранить единый стиль личного кабинета, я самостоятельно проанализировала существующие в компании сервисы, восстановила используемые компоненты, отступы и паттерны интерфейса и уже на их основе разработала новый пользовательский сценарий.",
       },
       {
         title: "Сценарий",
-        image: asset("claim-scenario.png"),
-        ratio: "natural",
+        steps: [
+          "Выбор договора",
+          "Проверка возможности\nподачи заявления",
+          "Заполнение формы",
+          "Отправка документов",
+          "Получение статуса\nзаявления",
+        ],
       },
       {
         title: "Финальные экраны",
+        galleryVariant: "claim",
         gallery: [
           {
             title: "Выбор договора",
+            caption: true,
             image: asset("claim-contract.png"),
             ratio: "desktop",
+            span: 3,
           },
           {
             title: "Проверка возможности подачи заявления",
+            caption: true,
             image: asset("claim-check.png"),
             ratio: "desktop",
+            span: 3,
           },
           {
             title: "Заполнение формы",
+            caption: true,
             image: asset("claim-form.png"),
             ratio: "desktop-long",
+            span: 2,
           },
           {
             title: "Отправка документов",
+            caption: true,
             image: asset("claim-send.png"),
             ratio: "desktop",
+            span: 2,
           },
           {
             title: "Получение статуса заявления",
+            caption: true,
             image: asset("claim-status.png"),
             ratio: "desktop-long",
+            span: 2,
           },
         ],
       },
