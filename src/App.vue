@@ -47,12 +47,12 @@ async function activateCatMode() {
 
     if (catVideoRef.value) {
         catVideoRef.value.currentTime = 0;
-        catVideoRef.value.volume = 0.15;
+        catVideoRef.value.volume = 0.22;
 
         try {
             await catVideoRef.value.play();
         } catch {
-            // Если браузер вдруг заблокирует звук, видео всё равно останется видимым.
+            // Если браузер заблокирует звук, видео всё равно останется видимым.
         }
     }
 }
@@ -72,7 +72,7 @@ function handleProfileClick() {
         profileClickCount.value = 0;
     }, 5000);
 
-    if (profileClickCount.value >= 20) {
+    if (profileClickCount.value >= 5) {
         activateCatMode();
     }
 }

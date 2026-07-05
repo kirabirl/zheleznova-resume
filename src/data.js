@@ -79,7 +79,7 @@ export const projects = [
   {
     id: "restaurant",
     title: "Редизайн приложения ресторана",
-    cover: asset("restaurant-final.png"),
+    cover: asset("restaurant-cover.png"),
     heading: "Редизайн мобильного приложения немецкого ресторана",
     intro:
       "Личный UX/UI-проект по редизайну существующего приложения немецкого ресторана. Цель: улучшить пользовательский опыт существующего приложения, сохранив его функциональность.",
@@ -176,7 +176,7 @@ export const projects = [
   {
     id: "sravni",
     title: "МАКС-Жизнь для Сравни.ру",
-    cover: asset("sravni-final.png"),
+    cover: asset("sravni-cover.png"),
     heading: "МАКС-Жизнь для Сравни.ру",
     sections: [
       {
@@ -201,7 +201,7 @@ export const projects = [
   {
     id: "mobile-insurance",
     title: "МАКС-Жизнь. Мобильная версия страницы страхового продукта",
-    cover: asset("mobile-insurance-final-01.png"),
+    cover: asset("mobile-insurance-cover.png"),
     heading: "МАКС-Жизнь. Мобильная версия страницы страхового продукта",
     intro:
       "Рабочий проект по адаптации страницы страхового продукта для мобильной версии.",
@@ -240,7 +240,7 @@ export const projects = [
   {
     id: "claim-service",
     title: "МАКС-Жизнь. Личный кабинет: сервис «Заявление на дожитие»",
-    cover: asset("claim-contract.png"),
+    cover: asset("claim-service-cover.png"),
     heading:
       "МАКС-Жизнь. Проектирование сервиса «Заявление на дожитие» в личном кабинете",
     intro:
@@ -252,13 +252,8 @@ export const projects = [
       },
       {
         title: "Сценарий",
-        steps: [
-          "Выбор договора",
-          "Проверка возможности\nподачи заявления",
-          "Заполнение формы",
-          "Отправка документов",
-          "Получение статуса\nзаявления",
-        ],
+        image: asset("claim-scenario.png"),
+        ratio: "natural",
       },
       {
         title: "Финальные экраны",
